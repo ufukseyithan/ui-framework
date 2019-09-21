@@ -24,10 +24,10 @@ function ui.objects.createImage(id, path, x, y, style)
     function self.setPos(x, y)
         if not x or not y then return end
 
+        imagepos(self.image, x, y, imageparam(self.image, "rot"))
+
         self.x = x
         self.y = y
-
-        self.update()
     end
     function self.setStyle(style)
         if not style then return end
@@ -40,8 +40,7 @@ function ui.objects.createImage(id, path, x, y, style)
     function self.update()
         local styleProperties = ui.style.getProperties(self.style)
 
-        imagepos(self.image, self.x, self.y, 0)
-        tween_scale(self.image, 100, styleProperties.xScale or 1, styleProperties.yScale or 1)
+        imagescale(self.image, styleProperties.xScale or 1, styleProperties.yScale or 1)
         imagealpha(self.image, styleProperties.alpha or 1)
 
         if styleProperties.color then
@@ -237,10 +236,13 @@ function ui.objects.createImageButton(id, path, x, y, width, height, style)
     function self.setPos(x, y)
         if not x or not y then return end
 
+        self.imageObject.setPos(x, y)
+        if self.background then
+            self.background.setPos(x, y)
+        end 
+
         self.x = x
         self.y = y
-
-        self.update()
     end
     function self.setPath(path)
         if not path then return end
@@ -295,7 +297,6 @@ function ui.objects.createImageButton(id, path, x, y, width, height, style)
             self.imageObject.setPath(self.path)
         end
 
-        self.imageObject.setPos(self.x, self.y)
         self.imageObject.setStyle(self.style)
     end
     function self.remove()
@@ -326,7 +327,7 @@ function ui.objects.createWindow(id, path, x, y, style, interact, width, height)
     self.width = width or false
     self.height = height or false
 
-    if path == "visible" then
+    if path == "invisible" then
         self.imageObject = false
     elseif type(path) == "table" then
         self.imageObject = ui.objects.createImage(id, ui.path.."gfx/1x1.bmp", x, y, {
@@ -350,8 +351,8 @@ function ui.objects.createWindow(id, path, x, y, style, interact, width, height)
         for k, v in pairs(self.objects) do
             for i = 1, #arg do
                 if v == arg[i] then
-                    table.remove(self.objects, k)
                     if remove then v.remove() end
+                    self.objects[k] = nil
                 end
             end
         end
