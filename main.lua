@@ -2,7 +2,7 @@ ui = {}
 
 ui.path = "sys/lua/ui-framework/"
 
-ui.version = "2.3"
+ui.version = "2.3.1"
 
 ui.luaFiles = {
     "config",
