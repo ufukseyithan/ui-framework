@@ -68,8 +68,8 @@ function ui.objects.createText(id, text, x, y, align, vAlign, style)
     self.playerId = id
     self.id = ui.user.getObjectId(id, "texts")
 
-    if id > 50 then
-        ui.funcs.error("Text couldn't be created. Not enough text id! (> 50)")
+    if self.id > 200 then
+        ui.funcs.error("Text couldn't be created, it reached to the limit (> 200).")
         return
     end
 
@@ -114,10 +114,61 @@ function ui.objects.createText(id, text, x, y, align, vAlign, style)
         self.update()
     end
 
+    function self.removeBackground()
+        if self.background then
+            self.background.remove()
+        end
+    end
     function self.update()
         local styleProperties = ui.style.getProperties(self.style)
 
-        parse('hudtxt2 '..id..' '..(self.id - 1)..' "\169'..(styleProperties.textColor or "255255255")..self.text..'" '..self.x..' '..self.y..' '..self.align..' '..self.vAlign..' '..(styleProperties.textSize or 13))
+        local textSize = styleProperties.textSize or 13
+
+        if ui.config.textwidthLibrary then
+            if styleProperties.background and not styleProperties.background.avoidDuplicate then
+                local padding = (styleProperties.background.padding or 0) * 2
+                local width, height = textwidth(self.text, textSize), textSize 
+                
+                local x, y = self.x, self.y
+                if self.align == 0 then
+                    x = x + width / 2
+                elseif self.align == 2 then
+                    x = x - width / 2
+                end
+
+                if self.vAlign == 0 then
+                    y = y + height / 2
+                elseif self.vAlign == 2 then
+                    y = y - height / 2
+                end
+
+                width, height = width + padding, height + padding
+
+                if self.background then
+                    self.background.setStyle({
+                        xScale = width,
+                        yScale = height,
+                        color = styleProperties.background.color,
+                        alpha = styleProperties.background.alpha
+                    })
+                else
+                    self.background = ui.objects.createImage(id, ui.path.."gfx/1x1.bmp", x, y, {
+                        xScale = width,
+                        yScale = height,
+                        color = styleProperties.background.color,
+                        alpha = styleProperties.background.alpha
+                    })
+                end
+
+                if self.background then
+                    self.background.setPos(x, y)
+                end 
+            else
+                self.removeBackground()
+            end
+        end
+
+        parse('hudtxt2 '..id..' '..(self.id - 1)..' "\169'..(styleProperties.textColor or "255255255")..self.text..'" '..self.x..' '..self.y..' '..self.align..' '..self.vAlign..' '..textSize)
     end
     function self.remove()
         parse('hudtxt2 '..id..' '..self.id - 1)
@@ -131,13 +182,15 @@ function ui.objects.createText(id, text, x, y, align, vAlign, style)
     return self
 end
 
-function ui.objects.createButton(id, text, x, y, width, height, style)
+function ui.objects.createButton(id, text, x, y, width, height, autosize, padding, style)
     local self = {}
 
     self.x = x
     self.y = y
     self.width = width
     self.height = height
+    self.autosize = autosize
+    self.padding = padding
     self.text = text
     self.textObject = ui.objects.createText(id, text, x, y, 1, 1, style)
     self.playerId = id
@@ -157,6 +210,8 @@ function ui.objects.createButton(id, text, x, y, width, height, style)
         if not text then return end
 
         self.text = text
+
+        self.autosize()
 
         self.update()
     end
@@ -182,25 +237,42 @@ function ui.objects.createButton(id, text, x, y, width, height, style)
     function self.update()
         local styleProperties = ui.style.getProperties(self.style)
 
+        if self.autosize and ui.config.textwidthLibrary then
+            if styleProperties.background then
+                local textSize = styleProperties.textSize or 13
+    
+                local padding = (self.padding or 0) * 2
+    
+                self.setSize(textwidth(self.text, textSize) + padding, textSize + padding)
+            end
+        end
+
         if styleProperties.background then
             if self.background then
                 self.background.setStyle({
                     xScale = self.width,
                     yScale = self.height,
-                    color = {styleProperties.background[1][1], styleProperties.background[1][2], styleProperties.background[1][3]},
-                    alpha = styleProperties.background[2]
+                    color = styleProperties.background.color,
+                    alpha = styleProperties.background.alpha
                 })
             else
                 self.background = ui.objects.createImage(id, ui.path.."gfx/1x1.bmp", self.x, self.y, {
                     xScale = self.width,
                     yScale = self.height,
-                    color = {styleProperties.background[1][1], styleProperties.background[1][2], styleProperties.background[1][3]},
-                    alpha = styleProperties.background[2]
+                    color = styleProperties.background.color,
+                    alpha = styleProperties.background.alpha
                 })
             end
+
+            if self.background then
+                self.background.setPos(x, y)
+            end 
         else
             self.removeBackground()
         end
+
+        -- Avoiding two different background from each object
+        styleProperties.background.avoidDuplicate = true
 
         self.textObject.setText(self.text)
         self.textObject.setPos(self.x, self.y)
@@ -278,17 +350,19 @@ function ui.objects.createImageButton(id, path, x, y, width, height, style)
                 self.background.setStyle({
                     xScale = self.width,
                     yScale = self.height,
-                    color = {styleProperties.background[1][1], styleProperties.background[1][2], styleProperties.background[1][3]},
-                    alpha = styleProperties.background[2]
+                    color = styleProperties.background.color,
+                    alpha = styleProperties.background.alpha
                 })
             else
                 self.background = ui.objects.createImage(id, ui.path.."gfx/1x1.bmp", self.x, self.y, {
                     xScale = self.width,
                     yScale = self.height,
-                    color = {styleProperties.background[1][1], styleProperties.background[1][2], styleProperties.background[1][3]},
-                    alpha = styleProperties.background[2]
+                    color = styleProperties.background.color,
+                    alpha = styleProperties.background.alpha
                 })
             end
+
+            self.background.setPos(self.x, self.y)
         else
             self.removeBackground()
         end

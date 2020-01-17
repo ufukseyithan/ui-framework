@@ -19,13 +19,13 @@ function ui.funcs.deepcopy(object)
 end
 
 function ui.funcs.info(text)
-    if not ui.config.showConsoleInputs then return end
+    if not ui.config.consoleOutputs then return end
 
     print("\169128255255[INFO]: "..text)
 end
 
 function ui.funcs.error(text)
-    if not ui.config.showConsoleInputs then return end
+    if not ui.config.consoleOutputs then return end
 
     print("\169255000128[ERROR]: "..text)
 end
