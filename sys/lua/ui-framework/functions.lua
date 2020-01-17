@@ -66,6 +66,10 @@ function ui.funcs.getMouseY(id)
     return ui.funcs.convertY(id, y)
 end
 
+function ui.funcs.get1x1Image()
+    return ui.paths.gfx.."1x1.bmp"
+end
+
 function ui.funcs.isInside(x, y, x1, y1, x2, y2)
     return ((x > x1) and (y > y1) and (x < x2) and (y < y2))
 end

@@ -152,7 +152,7 @@ function ui.objects.createText(id, text, x, y, align, vAlign, style)
                         alpha = styleProperties.background.alpha
                     })
                 else
-                    self.background = ui.objects.createImage(id, ui.path.."gfx/1x1.bmp", x, y, {
+                    self.background = ui.objects.createImage(id, ui.funcs.get1x1Image(), x, y, {
                         xScale = width,
                         yScale = height,
                         color = styleProperties.background.color,
@@ -256,7 +256,7 @@ function ui.objects.createButton(id, text, x, y, width, height, autosize, paddin
                     alpha = styleProperties.background.alpha
                 })
             else
-                self.background = ui.objects.createImage(id, ui.path.."gfx/1x1.bmp", self.x, self.y, {
+                self.background = ui.objects.createImage(id, ui.funcs.get1x1Image(), self.x, self.y, {
                     xScale = self.width,
                     yScale = self.height,
                     color = styleProperties.background.color,
@@ -354,7 +354,7 @@ function ui.objects.createImageButton(id, path, x, y, width, height, style)
                     alpha = styleProperties.background.alpha
                 })
             else
-                self.background = ui.objects.createImage(id, ui.path.."gfx/1x1.bmp", self.x, self.y, {
+                self.background = ui.objects.createImage(id, ui.funcs.get1x1Image(), self.x, self.y, {
                     xScale = self.width,
                     yScale = self.height,
                     color = styleProperties.background.color,
@@ -404,7 +404,7 @@ function ui.objects.createWindow(id, path, x, y, style, interact, width, height)
     if path == "invisible" then
         self.imageObject = false
     elseif type(path) == "table" then
-        self.imageObject = ui.objects.createImage(id, ui.path.."gfx/1x1.bmp", x, y, {
+        self.imageObject = ui.objects.createImage(id, ui.funcs.get1x1Image(), x, y, {
             color = {unpack(path[1])}, 
             alpha = path[2],
             xScale = width,
