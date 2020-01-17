@@ -11,6 +11,18 @@ You can create objects such as buttons, texts, images and even windows only with
 ```Lua
 local object = ui.objects.createImage(id, path, x, y, style)
 ```
+
+Create a Button object whose background will be auto-sized by its text width (has padding 10):
+```Lua
+local button = ui.objects.createButton(id, "Button", x, y, nil, nil, true, 10, {
+    background = {
+        color = {155, 155, 155},
+        alpha = 0.5
+    }
+})
+```
+In order this to work, *textwidthLibrary* variable in `config.lua` should be set to true (default). 
+
 ### Styles
 Every object may have a style defining their visual look. The size or the colour of a text, the opacity or the scale of an image; those are all very effortless to change now. Having an extra table with all the style information in it as usually a last parameter when creating an object, makes it happen. Moreover, you can even create style patterns and use them on specific objects. 
 ```Lua
@@ -28,11 +40,22 @@ ui.style.new("red", {
 object.setStyle("red")
  ```
 
+A Text object that has auto-sized background:
+```Lua
+local text = ui.objects.createText(id, "Text", x, y, nil, nil, {
+    background = {
+        color = {155, 155, 155},
+        alpha = 0.5,
+        padding = 5
+    }
+})
+```
+
 ### Events
 Objects are not composed of styles, you can likewise specify what to happen when clicking or hovering on them.
 ```Lua
 --the button turns red when clicked
-local button = ui.objects.createButton(id, "Click", x, y, 32, 32, style)
+local button = ui.objects.createButton(id, "Click", x, y, 32, 32, nil, nil, style)
 button.onClick = function()
     button.setStyle({
         textColor = "255000000"
