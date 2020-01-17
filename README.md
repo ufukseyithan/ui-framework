@@ -23,8 +23,6 @@ local button = ui.objects.createButton(id, "Button", x, y, nil, nil, true, 10, {
 ```
 In order this to work, *textwidthLibrary* in `config.lua` should be set to true (default). 
 
-Set an extra table with all the style properties in it as typically a last parameter when creating an object or create style "patterns" and then use them on specific objects either as setting the last parameter style's name or simply using object ``setStyle`` method, again via style's name. 
-
 ### Styles
 Objects may have a style changing their visual look. Defining properties such as color, background, alpha in so-called "patterns" (tables) and then tying them to the objects in certain ways accomplishes it.
 
