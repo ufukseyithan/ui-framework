@@ -13,12 +13,10 @@ function ui.user.getObjects(id)
         if ui.user.list[id] then
             table.insert(tbl, ui.user.list[id].objects)
         end
-
-        return tbl
-    end
-
-    for i = 1, 32 do
-        table.insert(tbl, ui.user.list[i].objects)
+    else
+        for i = 1, 32 do
+            table.insert(tbl, ui.user.list[i].objects)
+        end
     end
 
     return tbl
