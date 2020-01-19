@@ -3,11 +3,10 @@ ui = {}
 ui.version = "2.4.1"
 
 ui.paths = {
-    gfx = "gfx/ui-framework/",
-    sys = "sys/lua/ui-framework/"
+    gfx = "gfx/ui-framework/"
 }
 
-ui.luaFiles = {
+ui.sourceScripts = {
     "config",
     "functions",
     "user",
@@ -16,11 +15,18 @@ ui.luaFiles = {
     "hooks"
 }
 
-for k, v in pairs(ui.luaFiles) do
-    dofile(ui.paths.sys..v..".lua")
+local function getLocalDir()
+	local str = debug.getinfo(2, "S").source:sub(2)
+	return str:match("(.*/)")
 end
 
-ui.paths.lib = ui.paths.sys.."lib/"
+ui.paths.lua = getLocalDir()
+
+for k, v in pairs(ui.sourceScripts) do
+    dofile(ui.paths.lua..v..".lua")
+end
+
+ui.paths.lib = ui.paths.lua.."lib/"
 
 if ui.config.textwidthLibrary then  
     dofile(ui.paths.lib.."/textwidth/imageFont.lua")

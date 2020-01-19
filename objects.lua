@@ -238,13 +238,11 @@ function ui.objects.createButton(id, text, x, y, width, height, autosize, paddin
         local styleProperties = ui.style.getProperties(self.style)
 
         if self.autosize and ui.config.textwidthLibrary then
-            if styleProperties.background then
-                local textSize = styleProperties.textSize or 13
-    
-                local padding = (self.padding or 0) * 2
-    
-                self.setSize(textwidth(self.text, textSize) + padding, textSize + padding)
-            end
+            local textSize = styleProperties.textSize or 13
+
+            local padding = (self.padding or 0) * 2
+
+            self.setSize(textwidth(self.text, textSize) + padding, textSize + padding)
         end
 
         if styleProperties.background then
@@ -267,12 +265,12 @@ function ui.objects.createButton(id, text, x, y, width, height, autosize, paddin
             if self.background then
                 self.background.setPos(x, y)
             end 
+
+            -- Avoiding two different background from each object
+            styleProperties.background.avoidDuplicate = true
         else
             self.removeBackground()
         end
-
-        -- Avoiding two different background from each object
-        styleProperties.background.avoidDuplicate = true
 
         self.textObject.setText(self.text)
         self.textObject.setPos(self.x, self.y)
