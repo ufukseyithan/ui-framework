@@ -1,6 +1,6 @@
 ui = {}
 
-ui.version = "2.4"
+ui.version = "2.4.1"
 
 ui.paths = {
     gfx = "gfx/ui-framework/",
