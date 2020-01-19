@@ -16,7 +16,7 @@ local object = ui.objects.createImage(id, path, x, y, style)
 
 Create a Button object whose background will be auto-sized by its text width (has padding 10):
 ```Lua
-local button = ui.objects.createButton(id, "Button", x, y, nil, nil, true, 10, {
+local button = ui.objects.createButton(id, "Button", x, y, true, 10, {
     background = {
         color = {155, 155, 155},
         alpha = 0.5
