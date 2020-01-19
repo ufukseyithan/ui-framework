@@ -182,15 +182,13 @@ function ui.objects.createText(id, text, x, y, align, vAlign, style)
     return self
 end
 
-function ui.objects.createButton(id, text, x, y, width, height, autosize, padding, style)
+function ui.objects.createButton(id, text, x, y, width, height, style)
     local self = {}
 
     self.x = x
     self.y = y
     self.width = width
     self.height = height
-    self.autosize = autosize
-    self.padding = padding
     self.text = text
     self.textObject = ui.objects.createText(id, text, x, y, 1, 1, style)
     self.playerId = id
@@ -210,8 +208,6 @@ function ui.objects.createButton(id, text, x, y, width, height, autosize, paddin
         if not text then return end
 
         self.text = text
-
-        self.autosize()
 
         self.update()
     end
@@ -237,12 +233,15 @@ function ui.objects.createButton(id, text, x, y, width, height, autosize, paddin
     function self.update()
         local styleProperties = ui.style.getProperties(self.style)
 
+        self.autosize = self.width == true and true or false
+        self.padding = self.autosize == true and self.height
+
         if self.autosize and ui.config.textwidthLibrary then
             local textSize = styleProperties.textSize or 13
 
             local padding = (self.padding or 0) * 2
 
-            self.setSize(textwidth(self.text, textSize) + padding, textSize + padding)
+            self.width, self.height = textwidth(self.text, textSize) + padding, textSize + padding
         end
 
         if styleProperties.background then
