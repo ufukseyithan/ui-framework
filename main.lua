@@ -17,7 +17,7 @@ ui.luaFiles = {
 }
 
 for k, v in pairs(ui.luaFiles) do
-    dofile(ui.path.sys..v..".lua")
+    dofile(ui.paths.sys..v..".lua")
 end
 
 ui.paths.lib = ui.paths.sys.."lib/"
