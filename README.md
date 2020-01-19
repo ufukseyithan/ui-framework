@@ -1,8 +1,8 @@
 # UI Framework
-UI Framework, as its name signifies, is a small framework which assists you creating UIs with a small structure logic for [CS2D](http://www.cs2d.com/). It is a lot easier to create buttons, texts, images and subsequently interacting with them in matters of styles and events.
+A small framework which helps creating UIs for [CS2D](http://www.cs2d.com/). It is a lot easier to create buttons, texts, images and subsequently interacting with them in matters of styles and events.
 
 ## Installation
-The installation is quite easy. Put the related folders into your CS2D folder and dofile the `main.lua` in `sys/lua/ui-framework` and you're good to go!
+The installation is quite easy. Create a folder in your `sys/lua` and name it (preferably) "ui-framework" (if you name it differently, you will have to change the *paths.sys* variable in `main.lua` accordingly), and then put all the files into there. Lastly, extract [the required asset .rar file](https://drive.google.com/open?id=1Grh3Zve3MhMk88av-ni58FS5KQqBDeLd) into your CS2D folder and you're good to go!
 
 ## Features
 
