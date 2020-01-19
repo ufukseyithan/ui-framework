@@ -20,10 +20,12 @@ for k, v in pairs(ui.luaFiles) do
     dofile(ui.path.sys..v..".lua")
 end
 
-if ui.config.textwidthLibrary then  
-    dofile(ui.path.."/textwidth/imageFont.lua")
+ui.paths.lib = ui.paths.sys.."lib/"
 
-    imageFont.Load(ui.path.sys.."/textwidth/font.dat")
+if ui.config.textwidthLibrary then  
+    dofile(ui.paths.lib.."/textwidth/imageFont.lua")
+
+    imageFont.Load(ui.paths.lib.."/textwidth/font.dat")
 end
 
 print("\169000255000UI Framework "..ui.version.." is ready to use!")
