@@ -7,6 +7,8 @@ function ui.objects.createImage(id, path, x, y, style)
     self.y = y
     self.path = path
     self.image = image(path, x, y, 2, id)
+    self.width = imageparam(self.image, "width")
+    self.height = imageparam(self.image, "height")
     self.playerId = id
     self.id = ui.user.getObjectId(id, "images")
 
@@ -120,6 +122,8 @@ function ui.objects.createText(id, text, x, y, align, vAlign, style)
         end
     end
     function self.update()
+        self.width, self.height = textwidth(self.text, textSize), textSize 
+
         local styleProperties = ui.style.getProperties(self.style)
 
         local textSize = styleProperties.textSize or 13
@@ -127,7 +131,6 @@ function ui.objects.createText(id, text, x, y, align, vAlign, style)
         if ui.config.textwidthLibrary then
             if styleProperties.background and not styleProperties.background.avoidDuplicate then
                 local padding = (styleProperties.background.padding or 0) * 2
-                local width, height = textwidth(self.text, textSize), textSize 
                 
                 local x, y = self.x, self.y
                 if self.align == 0 then
@@ -142,7 +145,7 @@ function ui.objects.createText(id, text, x, y, align, vAlign, style)
                     y = y - height / 2
                 end
 
-                width, height = width + padding, height + padding
+                self.width, self.height = width + padding, height + padding
 
                 if self.background then
                     self.background.setStyle({
@@ -231,10 +234,12 @@ function ui.objects.createButton(id, text, x, y, width, height, style)
         end
     end
     function self.update()
-        local styleProperties = ui.style.getProperties(self.style)
+        if self.width == true then
+            self.autosize = true
+            self.padding = self.height
+        end
 
-        self.autosize = self.width == true and true or false
-        self.padding = self.autosize == true and self.height
+        local styleProperties = ui.style.getProperties(self.style)
 
         if self.autosize and ui.config.textwidthLibrary then
             local textSize = styleProperties.textSize or 13
@@ -265,7 +270,7 @@ function ui.objects.createButton(id, text, x, y, width, height, style)
                 self.background.setPos(x, y)
             end 
 
-            -- Avoiding two different background from each object
+            -- Avoiding two different backgrounds from each object
             styleProperties.background.avoidDuplicate = true
         else
             self.removeBackground()
