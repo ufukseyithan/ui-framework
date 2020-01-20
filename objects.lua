@@ -7,8 +7,6 @@ function ui.objects.createImage(id, path, x, y, style)
     self.y = y
     self.path = path
     self.image = image(path, x, y, 2, id)
-    self.width = imageparam(self.image, "width")
-    self.height = imageparam(self.image, "height")
     self.playerId = id
     self.id = ui.user.getObjectId(id, "images")
 
@@ -40,6 +38,9 @@ function ui.objects.createImage(id, path, x, y, style)
     end
 
     function self.update()
+        self.width = imageparam(self.image, "width")
+        self.height = imageparam(self.image, "height")
+
         local styleProperties = ui.style.getProperties(self.style)
 
         imagescale(self.image, styleProperties.xScale or 1, styleProperties.yScale or 1)
