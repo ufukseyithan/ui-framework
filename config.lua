@@ -30,6 +30,6 @@ ui.config.pressRightKey = "mouse2"
 -- Recommended to keep it true.
 ui.config.limitedHovering = true
 
--- Loads a library made by Simonas (USNG ID: 5537) which helps UI Framework generating auto-sized backgrounds for text objects.
+-- Loads a library made by Simonas (USGN ID: 5537) which helps UI Framework generating auto-sized backgrounds for text objects.
 -- Note: This works only with default CS2D font.
 ui.config.textwidthLibrary = true
