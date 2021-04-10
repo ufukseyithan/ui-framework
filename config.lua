@@ -14,7 +14,7 @@ ui.config.userPrototype = {
     }
 }
 
--- Defines the frequency of the hover events in milliseconds. The lower is smoother and laggier, the higher is less smother and less laggier.
+-- Defines the frequency of the hover events in milliseconds. The lower is smoother but heavier performance-wise, the higher is less smoother but less heavier.
 -- Recommended to keep it as-is. 
 ui.config.mouseRefreshRate = 20
 
@@ -22,7 +22,7 @@ ui.config.mouseRefreshRate = 20
 ui.config.consoleOutputs = true
 
 -- Specifies the trigger bindings for onClick and onRightClick events.
--- Recommended to keep them as-is since many people have got used to it.
+-- Recommended to keep them as-is.
 ui.config.pressKey = "mouse1"
 ui.config.pressRightKey = "mouse2"
 
